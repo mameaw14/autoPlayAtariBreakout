@@ -59,7 +59,7 @@ def find_ball(img):
         area = cv2.contourArea(c)
         (x, y), r = cv2.minEnclosingCircle(c)
         areaCir = circle_area(r)
-        if abs(area - areaCir) <= 40:
+        if abs(area - areaCir) <= 80:
             cv2.circle(resImg, (int(x), int(y)), int(r), (255, 0, 0), -1)
             res.append([x, y, r])
     if len(res) > 0:
@@ -84,12 +84,12 @@ def find_platform(img):
     res = []
 
     for c in cnts:
-        areaCnt = cv2.contourArea(c)
+        areaCnt = cv2.contourArea(c) #1494
         x, y, w, h = cv2.boundingRect(c)
         areaRect = w * h
-        if areaCnt / areaRect >= 0.8 and w / (h * 1.0) >= 10:
-            cv2.rectangle(resImg, (x, y), (x + w, y + h), (255, 255, 0), -1)
-            res.append((areaCnt, x, y, w, h))
+        # if areaCnt / areaRect >= 0.8 and w / (h * 1.0) >= 10:
+        cv2.rectangle(resImg, (x, y), (x + w, y + h), (255, 255, 0), -1)
+        res.append((areaCnt, x, y, w, h))
 
     if len(res) > 0:
         resSorted = sorted(res, key=itemgetter(0))
@@ -159,5 +159,5 @@ def main():
 
 
 if __name__ == '__main__':
-    # main()
-    get_position()
+    main()
+    # get_position()
